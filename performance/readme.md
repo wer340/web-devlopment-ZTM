@@ -183,5 +183,60 @@ only needed  for style write in css\
 webpage  was scrollable   maybe we had images underneath or it was a one of those one page website that i can keep scrolling down on . there is more and more information\
 i technically **don't need to see that until i start scrolling**\
 so the priority is to see whatever is above the fold the main page , if we are able to optimize this and just load what we need above the fold.\
- 
+to see first content lets see if we can move the style three to be loaded after the load line the red line() with a little javascript \
+use script for loaded style3 after red line  load \
+use function for append link and use `windows.onload`  for reminder that red line end up\
+```html
+<!-- 
+@HTML
+#1 Load <style> in <head>
+#2 Load <script> right before /body 
+@css
+#3load only what is needed
+#4 Above  the fold loading
+#5 Media attributes
+#6 less specificity
+
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Render Path</title>
+    <!-- External css -->
+    <link rel="stylesheet" href="style.css" media="all">
+   
+</head>
+<body>
+    <h1>How fast?</h1>
+    <button>Click me</button>
+    <h2> this is important</h2>
+    <h2 class="important"> Important above the fold content</h2>
+    <h2 class="secondary"> below the fold content . You wont see this until after page load  </h2>
+    <!-- #2 Render blocking and parser blocking JS -->
+    <script type="text/javascript"> 
+    const loadstylesheet= src => {
+        if(document.createStylesheet){
+            document.createStylesheet(src)
+        }
+        else{
+            const stylesheet=document.createElement('link');
+            stylesheet.href=src;
+            stylesheet.type='text/css';
+            stylesheet.rel='stylesheet'
+            document.getElementsByTagName('head')[0].appendChild(stylesheet)
+        }
+        
+    }
+    window.onload=function(){
+        console.log("windows done");
+        loadstylesheet('./style3.css')
+    }
+    </script>
+</body>
+</html>
+```
 

@@ -17,16 +17,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Critical Render Path</title>
-    <!-- #2 Render blocking aand parser blocking JS -->
-    <script>alert("check")</script>
     <!-- External css -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" media="all">
+   
 </head>
 <body>
-<h1>How fast?</h1>
-<button>Click me</button>
-<h2> this is important</h2>
-<h2 class="important"> Important above the fold content</h2>
-<h2 class="secondary"> below the fold content . You wont see this until after page load  </h2>
+    <h1>How fast?</h1>
+    <button>Click me</button>
+    <h2> this is important</h2>
+    <h2 class="important"> Important above the fold content</h2>
+    <h2 class="secondary"> below the fold content . You wont see this until after page load  </h2>
+    <!-- #2 Render blocking and parser blocking JS -->
+    <script type="text/javascript"> 
+    const loadstylesheet= src => {
+        if(document.createStylesheet){
+            document.createStylesheet(src)
+        }
+        else{
+            const stylesheet=document.createElement('link');
+            stylesheet.href=src;
+            stylesheet.type='text/css';
+            stylesheet.rel='stylesheet'
+            document.getElementsByTagName('head')[0].appendChild(stylesheet)
+        }
+        
+    }
+    window.onload=function(){
+        console.log("windows done");
+        loadstylesheet('./style3.css')
+    }
+    </script>
 </body>
 </html>
