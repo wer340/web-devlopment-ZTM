@@ -1,0 +1,32 @@
+<!-- 
+@HTML
+#1 Load <style> in <head>
+#2 Load <script> right before /body 
+@css
+#3load only what is needed
+#4 Above  the fold loading
+#5 Media attributes
+#6 less specificity
+
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Render Path</title>
+    <!-- #2 Render blocking aand parser blocking JS -->
+    <script>alert("check")</script>
+    <!-- External css -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>How fast?</h1>
+<button>Click me</button>
+<h2> this is important</h2>
+<h2 class="important"> Important above the fold content</h2>
+<h2 class="secondary"> below the fold content . You wont see this until after page load  </h2>
+</body>
+</html>

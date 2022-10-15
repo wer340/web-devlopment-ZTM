@@ -95,6 +95,93 @@ attach:[minifier](https://www.minifier.org/)
 
 ## simulate file to browser
 when html file arrive to browser  it start creating something called **the document object model** and browser parses or read html incrementally generates this tree model of the html tags .DOM  describes the contents of page  but then just as its about to start doing that it encounters a style link to grab the css so it asks for the css file from the server and then the css file arrives and it gets back to working  and it gets back to working on the DOM creating the structure of the web site now  once the browser receives all the css it also starts generating a tree model called css on and this  css object model has the styling information attached to the tree nodes and this tree describes how the content is styled  and its working and its  working and is building this tree and then all of a  sudden it sees a javascript tag a script tag so it grabs it from the server and the javascript derives but its also going to read javascript file and this javascript file is read by the browser and executes any changes that it might want onto the DOM and the css . \
-now once all thats done the browser combine the DOM and the css into a render tree\
+now once all thats done the browser combine the DOM and the cssOM into a render tree\
 render tree has both information from a html and the styling and layout information of css by combing the DOM and the success on the browser constructs this render tree so knows exactly what to render on the page so now browser uses this render tree to figure out the layout is going to forget about all these files and then its going to figure out the layout where should i position these items in one location what width what height and wants is figure that out is going to paint all the pixels in guess what at the end of all of that \
 we finally have our webpage and then download image  and loaded \
+## Critical Render Path 
+when a user request a page for your site the page html start streaming to the browser as soon as a browser encounter tags for an external image a script a successful , it will start downloading that file simultaneously \
+ when the browser receives our html it does something called **parsing it** its breaking it down into a vocabulary it understands after understanding the document  this what it does  it starts creating the dom as we have mentioned the document object model and again as its building that as soon as it sees an external resource , it goes ahead and starts downloading all of  those and **usually the css in java script files take high priority** and other file like image take lower priority\
+ how do we optimize this process?\
+ the first thing you want to do is to load style that has  case file as soon as possible and scripts that is javascript files as late as possible with a few exceptions here and there\
+ why?\
+ well one of the main principle of excess performance is to get the excess to the browser as soon as possible \
+ javascript requires the html and access parsing to finish before it can be run that s step 4 over here(image)\
+ this way we give style  ample time to create the css object model (CSSOM)\
+ if you put javascript in the head tag and html the problem with that positioning ,if its above the top , is that it blocks page rendering. \
+ scripts historically blocked additional resources from  being downloaded more quickly  by replacing them at the bottom or by placing them at the bottom you are style content and media  could start downloading more quickly given the perception of improved performance.\
+ the best way to demonstrate this is through an example \
+ ```html
+ <!-- HTML
+#1 Load <style> in <head>
+#2 Load <script> right before /body 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Render Path</title>
+    <!-- External css -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>How fast?</h1>
+<button>Click me</button>
+<!-- #2 Render blocking aand parser blocking JS -->
+<script>alert("check")</script>
+</body>
+</html>
+```
+and open network tab  then click refresh  \
+i see that my index file and style dot successful is well it looks like its loaded and because we have an alert here its blocking the rendering of the page \
+the javascript is running right now and we will get to why that is in the later videos \
+ but for now i want you to see that that the index and css file where both downloaded\
+### if script tag up  above the stylesheet \
+  ```html
+ <!-- HTML
+#1 Load <style> in <head>
+#2 Load <script> right before /body 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Render Path</title>
+  <!-- #2 Render blocking aand parser blocking JS -->
+  <script>alert("check")</script>
+    <!-- External css -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>How fast?</h1>
+<button>Click me</button>
+</body>
+</html>
+```
+and now  i refresh page  we see that the stylesheet is now pending if i click ok it then starts downloading it and we see over here 
+
+## recap
+**HTML**\
+load style tag in the <head> \
+load script right before </body>\
+
+## second step
+css is called render blocking because in order to construct the render tree and print something the screen , we are waiting for the system to complete and combine it with the DOM to create the render tree so **css is render blocking**\
+so with that in mind it makes sense that we want to make them as lightweight as possible so that the user sees something as soon as possible \
+
+## recap
+**css**\
+only load whatever is needed\
+above the fold loading\
+media attributes\
+less specificity\
+
+only needed  for style write in css\
+webpage  was scrollable   maybe we had images underneath or it was a one of those one page website that i can keep scrolling down on . there is more and more information\
+i technically **don't need to see that until i start scrolling**\
+so the priority is to see whatever is above the fold the main page , if we are able to optimize this and just load what we need above the fold.\
+ 
+
