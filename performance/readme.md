@@ -267,8 +267,18 @@ use trick   css internal  and css in line  rather than  css external  , but webp
  load scripts  asynchronously `<script async></script>`\
  defer loading of scripts `<script defer></script>`\
  minimize dom manipulation\
- avoid along running javascript \
+ ⛔avoid along running javascript \
  By using async we can tell the browser go ahead and download the js file another thread.\
   think of a thread  as a person doing work he or she  can only do one thing at a time with async\
   defer is very similar to async in that it will not block loading of our page however  it will wait to execute until after our estimate has been passed and will execute in order appearance 
-  
+  ⛔avoid along running javascript
+  ```js
+    var button=document.querySelector("button");
+    button.addEventListener("click",function(){
+        alert("stop clicking Me!");
+    })
+
+  ```
+  cause of  bad user experience   interrupt all work  for notification \
+###  the location of the script tags when you put async ordefer attributes on them is important [see](https://stackoverflow.com/questions/10808109/script-tag-async-defer).
+you can see this [source](https://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html)
