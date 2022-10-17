@@ -174,13 +174,13 @@ so with that in mind it makes sense that we want to make them as lightweight as 
 
 ## recap
 **css**\
-only load whatever is needed\
-above the fold loading\
-media attributes\
-less specificity\
+☕only load whatever is needed\
+💎above the fold loading\
+🌿media attributes\
+🌎less specificity\
 
-only needed  for style write in css\
-webpage  was scrollable   maybe we had images underneath or it was a one of those one page website that i can keep scrolling down on . there is more and more information\
+☕only needed  for style write in css\
+💎webpage  was scrollable   maybe we had images underneath or it was a one of those one page website that i can keep scrolling down on . there is more and more information\
 i technically **don't need to see that until i start scrolling**\
 so the priority is to see whatever is above the fold the main page , if we are able to optimize this and just load what we need above the fold.\
 to see first content lets see if we can move the style three to be loaded after the load line the red line() with a little javascript \
@@ -239,4 +239,36 @@ use function for append link and use `windows.onload`  for reminder that red lin
 </body>
 </html>
 ```
+🌿 media  this one will have a media only screen use this property \
+` <link rel="stylesheet" href="style2.css" media="only screen and (max-width:700px)">`\
 
+🌎 less specificity   the browser need to calculate the styling to create\
+```css
+/* bad */
+.header .nav .item .link a.important{
+color:pink;
+}
+/* good */
+a.important{
+    color:pink;
+}
+```
+so it  needs to do a little bit more work if specificity is really , really complicated versus if its just like this \
+use trick   css internal  and css in line  rather than  css external  , but webpage have been small webpage 
+ 
+ ## js 
+ out of html and css i think javascript is probably the worse because it can access and change both DOM and CSSOM \
+ this mean that once a script tag  in the html  is discovered  the dom construction is paused and the script is requested from the server \
+ so no matter what we are doing in the middle , we see a script file , we need to go request once the script  is loaded it can be executed before all the css is fetched as well and css dom is constructed  after this , then java script is execute\
+ you can imagine js can and may access the DOM as well as  the CCSOM and  only once  that is done can the page finally be render by going to the render tree layout and paint \
+ thats why we called js a  parser blocking remember the  alert code that we did before where we have a script tag with  and it just completely blocked the page \
+
+ ## optimize 
+ load scripts  asynchronously `<script async></script>`\
+ defer loading of scripts `<script defer></script>`\
+ minimize dom manipulation\
+ avoid along running javascript \
+ By using async we can tell the browser go ahead and download the js file another thread.\
+  think of a thread  as a person doing work he or she  can only do one thing at a time with async\
+  defer is very similar to async in that it will not block loading of our page however  it will wait to execute until after our estimate has been passed and will execute in order appearance 
+  

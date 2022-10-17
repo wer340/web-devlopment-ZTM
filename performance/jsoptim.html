@@ -1,0 +1,39 @@
+<!-- 
+@HTML
+#1 Load <style> in <head>
+#2 Load <script> right before /body 
+@css
+#3load only what is needed
+#4 Above  the fold loading
+#5 Media attributes
+#6 less specificity
+
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Render Path</title>
+    <!-- External css -->
+    <link rel="stylesheet" href="style.css" media="all">
+    <link rel="stylesheet" href="style2.css" media="only screen and (max-width:900px)">
+   
+</head>
+<body>
+    <h1>How fast?</h1>
+    <button>Click me</button>
+    <img src="https://assets.heart.co.uk/2012/04/kate-moss-mango--1327404174-view-2.jpg"   >
+  
+<script  >
+    var button=document.querySelector("button");
+    button.style.color="red";
+</script>
+<script src="./script.js"></script>
+<script src="./script2.js" async></script>
+<script src="./script3.js" async></script>
+
+</body>
+</html>
