@@ -282,3 +282,18 @@ use trick   css internal  and css in line  rather than  css external  , but webp
   cause of  bad user experience   interrupt all work  for notification \
 ###  the location of the script tags when you put async ordefer attributes on them is important [see](https://stackoverflow.com/questions/10808109/script-tag-async-defer).
 you can see this [source](https://www.growingwiththeweb.com/2014/02/async-vs-defer-attributes.html)
+
+
+#  tools for test performace asite
+
+## [web page test ](https://www.webpagetest.org/) 
+## developers google pagespeed [insights](https://pagespeed.web.dev/)\
+## [you don't need jquery](https://youmightnotneedjquery.com/)
+## [Prefetching, preloading, prebrowsing](https://css-tricks.com/prefetching-preloading-prebrowsing/)\
+
+## see file `026 Resources_ Performance Tools.html` another resource\
+
+## HTTP/2
+ great resource if you want to learn more about what will be coming up in the future with HTTP/2:[developers google](https://developers.google.com/web/fundamentals/performance/http2/)
+ ## HTTP/3 
+ [resource](https://blog.cloudflare.com/http3-the-past-present-and-future/)
