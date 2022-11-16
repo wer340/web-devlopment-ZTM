@@ -273,7 +273,7 @@ const Scrollable=(props)=>{
   console.log(props)
 return (
   //two {{}} first bracket for java script expression second  for  css object 
-<div style={{overflowY:'scroll',border:5px solid pink,height:800px}}>{props.children}</div>
+<div style={{overflowY:'scroll',border:'5px solid pink',height:'800px'}}>{props.children}</div>
 
 )
 }
@@ -282,7 +282,105 @@ export default Scrollable;
 ```
 react trickle down all this information as props to all these components and magically create our view for us
 
+## 27  management  workspace   for find bug
+make two folder  with  containers name and components /
+pure or dumb components leave into components folder  and smart components (have class  have life cycle method) leave into containers folder  css file put aside index.js  but  font file ,.. leave into components /
+
+```js
+if(!this.state.list.length===0){
+  return(<h1 className="tc green pa3">loading</h1>)
+}else{
+
+  return(
+     <div className="tc"> 
+         <SearchBox  searchText={this.onSearchChange} />
+         <Scrollable>
+         <Cardlist list={filterRobo} />
+         </Scrollable>
+
+     </div>
+ )
+}
+        
+// can be cleaner  with this
+return !this.state.list.length?
+                (<h1 className="tc green pa3">loading</h1>)
+        :
+
+             (
+                <div className="tc"> 
+                    <SearchBox  searchText={this.onSearchChange} />
+                    <Scrollable>
+                    <Cardlist list={filterRobo} />
+                    </Scrollable>
+    
+                </div>
+            )
+
+// and use   
+
+this.state.list.filter(item=>{//statement})
+//rather than
+const {searchfield,list}=this.state;
+list.filter(item=>{//statement})
+```
+## 29 vulnerabilities (8 high, 1 critical)
+when clone repo from [github](https://github.com/aneagoie/robofriends/blob/master/package.json)   possibility this repo have vulnerabilities  for resolve this issue use  ` npm audit fix`  for this \
+some  vulnerabilities  must be review as manually because can be break your app after update lib  \
+use `npm audit `  give  you idea for resolve finally can be used `npm audit fix --force` \
+and `package.json ` have minor  and major update   \
+use `npm update` for perform update package
+```json
+ "dependencies": {
+    "react": "^18.2.0", //use ~ carrot  "^18.2.0" update minor 18.X
+    "react-dom": "^18.2.0", //use ~ tidy  "~18.2.0" update 18.2.X
+    "react-scripts": "^5.0.1",
+    // use greater than   also  >  for update 
+```
+[react 16 -> 17 ](https://reactjs.org/blog/2020/08/10/react-v17-rc.html)
+
+## 33   react 16  was a new version of React introduced something called **error boundaries** 
+it solved the problem that reactor had previously which was if there was some sort of an air within a component , for whatever reason , there wasn't a graceful way to handle it   on the next render , you'd  get all these cryptic errors and things just wouldn't work out nicely  \
+And for a user , you want to make sure that even if a part of your component break , you can still have nice UI experience  a maybe a piece of text says something went wrong but not have the app break  \
+```js
+class ErrorBoundary extends Component{
+    constructor(props){ // props trickle down 
+        super(props)
+    this.state={
+        hasError:false
+    }
+    }
+    componentDidCatch(error,info){ //from react 16 to later
+        this.setState({
+            hasError:true
+        })
+
+    }
+    render(){
+        if(this.state.hasError){
+            return(<h1>ooooops happen error</h1>)
+        }else{
+            return(this.props.children)
+        }
+    }
+}
+// then 
+<ErrorBoundary>
+<Cardlist>//children
+</ErrorBoundary>
+```
 
 
 
 
+# issue  port 3000 already
+```cmd
+:: linux and mac
+$ lsof -i tcp:3000
+$ kill -9 PID
+
+:: windows
+netstat -ano | findstr :3000
+tskill typeyourPIDhere
+
+```
