@@ -369,10 +369,6 @@ class ErrorBoundary extends Component{
 <Cardlist>//children
 </ErrorBoundary>
 ```
-
-
-
-
 # issue  port 3000 already
 ```cmd
 :: linux and mac
@@ -384,3 +380,61 @@ netstat -ano | findstr :3000
 tskill typeyourPIDhere
 
 ```
+## 34 deploy   github pages
+many [solution](https://create-react-app.dev/docs/deployment/) for deploy app\
+1️⃣Open your package.json and add a homepage field for your project:`  "homepage": "https://myusername.github.io/my-app",` \
+
+2️⃣Install gh-pages and add deploy to scripts in `package.json` ,`npm install --save gh-pages`\
+and Add the following scripts in your `package.json`:
+```json
+  "scripts": {
+   "predeploy": "npm run build",//+
+   "deploy": "gh-pages -d build",//+
+    "start": "react-scripts start",
+    "build": "react-scripts build"}
+```
+  3️⃣ `npm run deploy`
+  4️⃣ For a project page, ensure your project’s settings use gh-pagesm 
+
+  ## 35 keep up to date    react v.16 come up hooks 
+
+  ## 36 [hooks](https://reactjs.org/docs/hooks-intro.html#:~:text=Hooks%20are%20a%20new%20addition,features%20without%20writing%20a%20class.&text=This%20new%20function%20useState%20is,doesn't%20make%20sense%20yet!) 
+
+    if w ehad some logic of lets say changing sate in our class components sometimes if we want to do something similar in another component its a little harder to do with the way that we had it before **Hooks** makes this a little bit easier\
+    Hooks let you split one component into smaller functions based on what pieces are related (such as setting up a subscription or fetching data)\
+    big motivation for use hooks Classes confuse both people and machines\
+    hooks allow us to not use class , not use the this keyword in our react applications another major reason that is overlook is the react wants to do something called **ahead of time compilation one day**  , hopefully for performance , something that thing like `svelte,Angular , Glimmer` do 
+
+
+## 37   robofriend app convert from class to hook 
+1️⃣ git clone ... 2️⃣npm update 3️⃣ npm audit fix \
+notice hooks came up from react v.16.8  to later\
+ 
+## 38   hooks
+hooks are function that let you  hook into  react state and lifecycle feature from function components.\
+hooks dont work inside classes\
+☕for use hook\
+`import React,{ useState,useEffect} from react`\
+
+## 39
+hook is a special function that lets you hook into react feature so that you useState and they useEfact hook allow to hook into a react a feature because its from the react library to either work  with state or with life-cycle method\
+```js
+function App(){
+  //comment life-cycle method constructor  componentDidMount render
+  // convert onSearchCahange=(event){} to const onSearchCahange=(event){}
+  const onSearchCahange=(event){}
+}
+```
+## 40  replicate    constructor
+```js
+// these two line  put  rather than constructor() method
+const [List,setList]=useState([]) ; // inside parentheses  put initiate value
+const [SearchField,setSearchField]=useState('') ;
+
+const onSearchChange=(event){
+  setSearchField(event.target.value)
+}
+```
+
+## 41  useEffect
+useEffect gets run every time the function app gets run automatically
