@@ -437,4 +437,138 @@ const onSearchChange=(event){
 ```
 
 ## 41  useEffect
-useEffect gets run every time the function app gets run automatically
+useEffect gets run every time the function app gets run automatically\
+this method run function in the infinite loop and this is another tricky part of when people get started with hooks again use second parameter also\
+first parameter render function second one is dependency \
+useEffect receives an array as a second argument \
+## why exactly the useEffect was running continuosly over and over and over\
+ well if we look at the below code when th app render it create the state then it run the useEffect because it render so it fetch the users an then these users are going to update the state its going to update their robot state with new user so what happen ,well new users are being rendered right here  so the app re renders and says hey i got new robots , so i need to render myself to show the robots so it renders but remember what i said with use hooks every time the component renders its going to run useEffect so its going to run fetch again and then its going to set robots again then its going to setRobots again so it has to render and then it goes useEffect again so it goes into a continuos loop.
+## trick for useEffect
+give second parameter  and this optional list tell us in here hey when should i run useEffect so you can tell react to  skip applying the effect or the useEffect function if certain value haven't changed rerenders **so in here we say hey only one useEffect if one of these have changed**  when put in [] similar to componentDidMount() 
+
+```js
+function App () {
+
+  const[robots,setRobots]=useState([]);
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.cypress.io/users').then(results=>results.json()).then(users=> setRobots(users))
+  }
+    , []])
+  return(<h1>{robot[1].name}</h1>)
+}
+```
+## 45 redux and webpack
+
+## 46 before talk about redux need to talk about state management
+the state described what our app should look like \
+i want you to think of state as **memory**  an app needs to remember things in order to work otherwise , we would just have simple email webpage like before \
+state like robo-friend s app but sate management is a really hard problem as our apps get bigger and bigger and bigger    and keeping track of all this state is really really hard\
+ so we need some form of a state management and **redux** solve this problem for us what if we just remove all the state , so this state from  all the components ? \
+ what if we just have props?\
+ so all these components just have props being passed down and now the state , we keep it in a store. and a store is simply just **the state** but in one massive object\
+ so one single object that describe how our app should look and  all we do is just pass down that state to whichever component needs it as props.\
+ ### redux is a library that makes state management easier , not only for react , but for any tools that we use 
+ **redux actually inspiration data base design** from such as event sourcing or cq press , which you can read up more on database had same problem all these update and all these change happened but we needed a way to make sure that all these changes are organized in a nice\
+
+ ## 47 why do you use redux?
+ 1️⃣ good for managing large state\
+ 2️⃣useful for sharing data between containers\
+ 3️⃣predictable state management using the 3 principles\
+
+ redux has predictable state management using the three principles now what are the three \
+
+ ## the 3 principles
+ 1️⃣single source of truth ☕  big object\
+ 2️⃣state is read only ☕ never get modified and instead we would create a new state after each action is taken by the user\
+ 3️⃣changes using pure functions ☕ that changes are made only using pure function ▶[pure function that receive an input and always return aan output that is predictable]\
+
+ action ▶ reducer[pure function]  ▶ store make changes\
+ redux i want to teach this just for historical purposes uses an architectural pattern called **flux pattern architecture** and software is used as a way to make sure that we are able  to solve problems in a logical sense and in an organized fashion 
+ ## flux pattern ✅  Action ▶ Dispatcher ▶ store ▶ view
+ because before that idea  we had something called MVC[model view controller] and you may have heard \
+ now problem with mvc pattern is well this diagram over here we have the controller that changes different pieces of the model and this model can changes the view that can trigger a another  change and that model can change another part of the view and so on and so for and we have this thing that we saw before we have the craziness of actions and making changes all thee arrows just crisscrossing and not looking very nice  and although it might not be bad when your apps are smaller as your apps get bigger you want to do something like flux pattern\
+ ```js
+ redux===this.state;
+ ```
+
+## 48 redux implement 
+`npm install redux`  \
+this redux package will give us some tolls in order to incorporate redux into our react app also redux it still improving your javaScript skills when you write redux.\
+the second thing we need and this something similar with react , remember how we installed the react package and then we also needed something called **the react DOM**package to react to the dom well , in similar fashion , we need to connect redux to react , because redux theoretically could work with any other library by adding another package we  can again let know that hey  we are going to be using redux with you \
+`npm install react-redux ` \
+the way this react-redux is going to work is that its going to connect only the container \
+
+## 49 [redux toolkit](https://redux-toolkit.js.org/introduction/getting-started)
+you will notice one thing thats a little painful that some people dont like about redux. and that is the idea that redux has a lot of boilerplate code .\
+yoh have to learn new pattern you have to create numerous file to accomplish something that would have been really easy to do in just react .
+now the added benefit is that it makes our code more maintainable , more scalable as our apps grow .but it does mean more typing by developer . more files , more boilerplate and boilerplate simply mean code that you write over and over\
+and you see when we start building things like ***actions reducer** , how you are repetitive code . and redux toolkit was created for this reason its the batteries-included toolset for efficient redux development they take a lot of the manual hard work with redux and generates a lot of really niceties for us
+for handle boilerplate and type many line code 
+
+## 50  write code   so use redux concept
+the first thing we want to do is create something called an **action** and also a **reducer** remember diagram  ☕ Action ▶ Reducer ▶ Store ▶ Make Change \
+redux has these two components  an action and a reducer so we are going to build those to out \
+create new file in `src` folder  by `action.js` name \
+within here we are going to create an action using just plain old javascript we are going to say export 
+```js
+import {CHANGE_SEARCH_FIELD} from './constants.js'
+export const setSearchField=(text) =>({
+  type:'CHANGE_SEARCH_FIELD',// capitalize because this variable is constant
+  payload:text
+
+})//because we want to keep this as small as possible we can actually wrap it in url brackets so that we can avoid the return statement , we are just returning an object and this object is going to have a type 
+```
+ and  then create new file in `src` folder  by `constants.js` name\
+
+ ```js
+ export const CHANGE_SEARCH_FIELD='CHANGE_SEARCH_FIELD'
+ ```
+ and need to create `reducer.js`  in `src` folder    that spit out all action to its\
+
+```js
+import {CHANGE_SEARCH_FIELD} from './constants.js'
+const initialState ={
+  searchField:''
+
+}
+export const searchRobots=(state=initialState,action={})=>{
+  switch(action.type){
+    case CHANGE_SEARCH_FIELD:
+      return object.assign({},state,{searchField:action.payload})       // 3 principles 1-single source  2-state is read only 3-changes using pure function
+      // return {...state ,{searchField:action.payload}}  another people like this way
+    default:
+      return state;
+  }
+}
+
+## 51 connect code to project  ✅provider
+in `index.js`
+```js
+import {provider,connect} from `react-redux`;
+import {createStore} from 'redux';
+import {searchRobots} from 'actions.js'
+
+const store=createStore(searchRobots);
+ReactDom.render(
+  <provider store={store}>
+  <App />
+  </provider>
+)
+```
+
+## 52  connect
+in `app.js` into `container` folder
+```js
+import{connect} from 'react-redux'
+import {setSearchField} from '../action.js';
+const mapStateToProps=state=>{
+  return{
+    searchField:state.searchField
+  }
+}
+const mapDispatchToProps=(dispatch)=>{
+ return {onSearhChange:(event)=> dispatch(setSearchField(event.target.value))} 
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);//high order function
+```
